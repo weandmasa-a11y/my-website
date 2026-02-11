@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>兵数配分シミュレーター</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+        .container { max-width: 400px; margin: auto; border: 1px solid #ccc; padding: 20px; border-radius: 8px; }
+        input { width: 100%; padding: 8px; margin: 10px 0; box-sizing: border-box; }
+        .result { background: #f4f4f4; padding: 15px; border-radius: 5px; margin-top: 20px; }
+        .unit { font-weight: bold; color: #333; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>兵数配分計算機</h2>
+    <label>総兵数を入力してください:</label>
+    <input type="number" id="totalArmy" placeholder="例: 10000" onInput="calculate()">
+
+    <div class="result">
+        <div>盾兵 (1): <span id="shield" class="unit">0</span> 人</div>
+        <div>槍兵 (64): <span id="spear" class="unit">0</span> 人</div>
+        <div>弓兵 (729): <span id="bow" class="unit">0</span> 人</div>
+        <hr>
+        <div>合計: <span id="sum" class="unit">0</span> 人</div>
+    </div>
+</div>
+
+<script>
+function calculate() {
+    const total = parseFloat(document.getElementById('totalArmy').value) || 0;
+    const ratioShield = 1;
+    const ratioSpear = 64;
+    const ratioBow = 729;
+    const totalRatio = ratioShield + ratioSpear + ratioBow; // 794
+
+    // 各兵科の計算（端数は四捨五入）
+    const shield = Math.round(total * (ratioShield / totalRatio));
+    const spear = Math.round(total * (ratioSpear / totalRatio));
+    const bow = Math.round(total * (ratioBow / totalRatio));
+
+    document.getElementById('shield').innerText = shield.toLocaleString();
+    document.getElementById('spear').innerText = spear.toLocaleString();
+    document.getElementById('bow').innerText = bow.toLocaleString();
+    document.getElementById('sum').innerText = (shield + spear + bow).toLocaleString();
+}
+</script>
+
+</body>
+</html>
